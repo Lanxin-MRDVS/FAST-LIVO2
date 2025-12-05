@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(fast_livo)
+project(fast_livo2)
 
 set(CMAKE_BUILD_TYPE "Release")
 message(STATUS "Build Type: ${CMAKE_BUILD_TYPE}")
@@ -99,7 +99,7 @@ find_package(OpenCV REQUIRED)
 find_package(Sophus REQUIRED)
 find_package(Boost REQUIRED COMPONENTS thread)
 
-set(Sophus_LIBRARIES libSophus.so)
+# set(Sophus_LIBRARIES libSophus.so)
 
 # Define the catkin package
 catkin_package(

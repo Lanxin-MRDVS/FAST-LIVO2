@@ -101,6 +101,8 @@ void ImuProcess::set_acc_bias_cov(const V3D &b_a) { cov_bias_acc = b_a; }
 
 void ImuProcess::set_imu_init_frame_num(const int &num) { MAX_INI_COUNT = num; }
 
+void ImuProcess::set_lid_time_interval(const double &interval){lid_time_interval = interval;}
+
 void ImuProcess::IMU_init(const MeasureGroup &meas, StatesGroup &state_inout, int &N)
 {
   /** 1. initializing the gravity, gyro bias, acc and gyro covariance
@@ -154,9 +156,13 @@ void ImuProcess::Forward_without_imu(LidarMeasureGroup &meas, StatesGroup &state
   /*** sort point clouds by offset time ***/
   const double &pcl_beg_time = meas.lidar_frame_beg_time;
   sort(pcl_out.points.begin(), pcl_out.points.end(), time_list);
-  const double &pcl_end_time = pcl_beg_time + pcl_out.points.back().curvature / double(1000);
+  double lidar_time_interval = pcl_out.points.back().curvature / double(1000);
+  if(lid_time_interval != 0 ){
+    lidar_time_interval = lid_time_interval;
+  }
+  const double &pcl_end_time = pcl_beg_time + lidar_time_interval;
   meas.last_lio_update_time = pcl_end_time;
-  const double &pcl_end_offset_time = pcl_out.points.back().curvature / double(1000);
+  const double &pcl_end_offset_time = lidar_time_interval;
 
   MD(DIM_STATE, DIM_STATE) F_x, cov_w;
   double dt = 0;

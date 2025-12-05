@@ -41,6 +41,7 @@ public:
   void set_acc_bias_cov(const V3D &b_a);
   void set_inv_expo_cov(const double &inv_expo);
   void set_imu_init_frame_num(const int &num);
+  void set_lid_time_interval(const double &lid_time_interval);
   void disable_imu();
   void disable_gravity_est();
   void disable_bias_est();
@@ -85,6 +86,7 @@ private:
   bool gravity_est_en = true;
   bool ba_bg_est_en = true;
   bool exposure_estimate_en = true;
+  double lid_time_interval = 0;
 };
 typedef std::shared_ptr<ImuProcess> ImuProcessPtr;
 #endif
